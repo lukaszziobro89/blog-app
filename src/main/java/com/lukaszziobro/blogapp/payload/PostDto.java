@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class PostDto {
+    private Long id;
     @NotNull(message = "Title cannot be empty")
     private String title;
     @NotNull(message = "Description cannot be empty")

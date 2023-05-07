@@ -39,14 +39,7 @@ public class PostService {
     }
 
     public PostDto updatePost(PostDto postDto, long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
-
-        // TODO: https://www.baeldung.com/spring-data-partial-update
-        post.setContent(postDto.getContent());
-        post.setDescription(postDto.getDescription());
-        post.setTitle(postDto.getTitle());
-
+        Post post = postMapper.mapToPostById(postDto, id);
         Post postSaved = postRepository.save(post);
         return postMapper.mapToPostDto(postSaved);
     }
