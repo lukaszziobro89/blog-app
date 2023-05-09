@@ -7,10 +7,12 @@ import com.lukaszziobro.blogapp.repository.PostRepository;
 import com.lukaszziobro.blogapp.utils.PostMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,10 +28,10 @@ public class PostService {
         return postMapper.mapToPostDto(saved);
     }
 
-    public List<PostDto> getAllPosts() {
-        return postRepository.findAll().stream()
-                .map(c -> postMapper.mapToPostDto(c))
-                .collect(Collectors.toList());
+    public Page<PostDto> getAllPosts(Pageable pageable) {
+        List<PostDto> posts = postRepository.findAll(pageable).stream()
+                .map(p -> postMapper.mapToPostDto(p)).toList();
+        return new PageImpl<>(posts);
     }
 
     public PostDto getPostById(long id) {

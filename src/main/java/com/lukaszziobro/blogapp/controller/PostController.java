@@ -6,11 +6,13 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -27,13 +29,15 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> getPosts(){
+    public Page<PostDto> getPosts(
+            @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable){
         logger.info("retrieving all posts");
-        return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
+        return postService.getAllPosts(pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPost(@PathVariable("id") long id) {
+        logger.info("retrieving Post with id: " + id);
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
 
