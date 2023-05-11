@@ -30,7 +30,7 @@ public class PostController {
 
     @GetMapping
     public Page<PostDto> getPosts(
-            @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC) Pageable pageable){
+            @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC, sort = "id") Pageable pageable){
         logger.info("retrieving all posts");
         return postService.getAllPosts(pageable);
     }

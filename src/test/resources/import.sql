@@ -1,0 +1,13 @@
+-- DROP SCHEMA if exists myblog;
+-- CREATE SCHEMA myblog;
+-- SET SCHEMA myblog;
+-- DROP TABLE post CASCADE ;
+-- CREATE TABLE post2 (
+--     id IDENTITY ,
+--     title VARCHAR(50),
+--     description VARCHAR(50),
+--     content VARCHAR(50)
+-- );
+-- INSERT INTO post2 VALUES (1, 'title 1', 'description 1', 'content 1');
+-- INSERT INTO post2 VALUES (2, 'title 2', 'description 2', 'content 2');
+-- INSERT INTO POST VALUES ( 'title', 'description', 'content');
