@@ -1,13 +1,11 @@
--- DROP SCHEMA if exists myblog;
--- CREATE SCHEMA myblog;
--- SET SCHEMA myblog;
--- DROP TABLE post CASCADE ;
--- CREATE TABLE post2 (
---     id IDENTITY ,
---     title VARCHAR(50),
---     description VARCHAR(50),
---     content VARCHAR(50)
--- );
--- INSERT INTO post2 VALUES (1, 'title 1', 'description 1', 'content 1');
--- INSERT INTO post2 VALUES (2, 'title 2', 'description 2', 'content 2');
--- INSERT INTO POST VALUES ( 'title', 'description', 'content');
+INSERT INTO post (content, description, title) VALUES ('title 1', 'description 1', 'content 1');
+INSERT INTO post (content, description, title) VALUES ('title 2', 'description 2', 'content 2');
+INSERT INTO post (content, description, title) VALUES ('title 3', 'description 3', 'content 3');
+INSERT INTO post (content, description, title) VALUES ('title 4', 'description 4', 'content 4');
+INSERT INTO post (content, description, title) VALUES ('title 5', 'description 5', 'content 5');
+INSERT INTO post (content, description, title) VALUES ('title 6', 'description 6', 'content 6');
+INSERT INTO post (content, description, title) VALUES ('title 7', 'description 7', 'content 7');
+INSERT INTO post (content, description, title) VALUES ('title 8', 'description 8', 'content 8');
+INSERT INTO post (content, description, title) VALUES ('title 9', 'description 9', 'content 9');
+INSERT INTO post (content, description, title) VALUES ('title 10', 'description 10', 'content 10');
+INSERT INTO post (content, description, title) VALUES ('title 11', 'description 11', 'content 11');
