@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 @Builder
 public class PostDto {
@@ -14,4 +16,5 @@ public class PostDto {
     private String description;
     @NotNull(message = "Content cannot be empty")
     private String content;
+    private Set<CommentDto> comments;
 }

@@ -28,7 +28,7 @@ public class PostController {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping // TODO: add sorting either by @SortDefault or other
     public Page<PostDto> getPosts(
             @PageableDefault(size = 10, page = 0, direction = Sort.Direction.ASC, sort = "id") Pageable pageable){
         logger.info("retrieving all posts");
@@ -42,7 +42,8 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody @Valid PostDto postDto, @PathVariable("id") long id){
+    public ResponseEntity<PostDto> updatePost(@RequestBody @Valid PostDto postDto,
+                                              @PathVariable("id") long id){
         return new ResponseEntity<>(postService.updatePost(postDto, id), HttpStatus.NO_CONTENT);
     }
 
