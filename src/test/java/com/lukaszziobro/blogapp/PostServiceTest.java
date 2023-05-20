@@ -1,7 +1,9 @@
 package com.lukaszziobro.blogapp;
 
+import com.lukaszziobro.blogapp.entity.Post;
 import com.lukaszziobro.blogapp.payload.PostDto;
 import com.lukaszziobro.blogapp.service.PostService;
+import com.lukaszziobro.blogapp.utils.PostMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ class PostServiceTest {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostMapper postMapper;
 
     @Test
     @DisplayName("Test init data loaded correctly - count")
@@ -54,17 +59,18 @@ class PostServiceTest {
     public void testCreatePost(){
 
         PostDto postDto = PostDto.builder()
-                .title("title_1")
-                .description("description_1")
-                .content("content_1")
+                .title("title_12")
+                .description("description_12")
+                .content("content_12")
                 .build();
 
         PostDto savedPost = postService.createPost(postDto);
 
         Assertions.assertThat(savedPost).isNotNull();
-        Assertions.assertThat(savedPost.getTitle()).isEqualTo("title_1");
-        Assertions.assertThat(savedPost.getDescription()).isEqualTo("description_1");
-        Assertions.assertThat(savedPost.getContent()).isEqualTo("content_1");
+        Assertions.assertThat(savedPost.getId()).isEqualTo(12L);
+        Assertions.assertThat(savedPost.getTitle()).isEqualTo("title_12");
+        Assertions.assertThat(savedPost.getDescription()).isEqualTo("description_12");
+        Assertions.assertThat(savedPost.getContent()).isEqualTo("content_12");
     }
 
     @Test
@@ -74,6 +80,41 @@ class PostServiceTest {
         Pageable wholePage = Pageable.unpaged();
         List<PostDto> postDtoList = postService.getAllPosts(wholePage).stream().toList();
         Assertions.assertThat(postDtoList.size()).isEqualTo(12);
+    }
+
+    @Test
+    @DisplayName("Test get post by id")
+    @Order(5)
+    public void testGetPostById(){
+
+        PostDto postDto = PostDto.builder()
+                .title("title_12")
+                .description("description_12")
+                .content("content_12")
+                .build();
+
+        postService.createPost(postDto);
+
+        Post post = postMapper.mapToPost(postService.getPostById(12L));
+
+        Assertions.assertThat(post.getDescription()).isEqualTo("description_12");
+        Assertions.assertThat(post.getTitle()).isEqualTo("title_12");
+        Assertions.assertThat(post.getContent()).isEqualTo("content_12");
+
+    }
+
+    @Test
+    @DisplayName("Test get post by id throws resource not found exception")
+    @Order(5)
+    public void testGetPostByIdThrowsResourceNotFoundException(){
+        // TODO
+    }
+
+    @Test
+    @DisplayName("Test get post by id")
+    @Order(6)
+    public void deletePostByIdb(){
+        // TODO
     }
 
 }
