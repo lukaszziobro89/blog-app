@@ -1,6 +1,7 @@
 package com.lukaszziobro.blogapp;
 
 import com.lukaszziobro.blogapp.entity.Post;
+import com.lukaszziobro.blogapp.exception.ResourceNotFoundException;
 import com.lukaszziobro.blogapp.payload.PostDto;
 import com.lukaszziobro.blogapp.service.PostService;
 import com.lukaszziobro.blogapp.utils.PostMapper;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
@@ -107,13 +110,29 @@ class PostServiceTest {
     @DisplayName("Test get post by id throws resource not found exception")
     @Order(5)
     public void testGetPostByIdThrowsResourceNotFoundException(){
+
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+           postService.getPostById(123L);
+        });
+
+        String expectedMessage = "Post not found with id : '123'";
+        String actualMessage = exception.getMessage();
+
+        Assertions.assertThat(actualMessage).isEqualTo(expectedMessage);
+
+    }
+
+    @Test
+    @DisplayName("Test get post by post id")
+    @Order(6)
+    public void testUpdatePost(){
         // TODO
     }
 
     @Test
-    @DisplayName("Test get post by id")
+    @DisplayName("Test get post by post id")
     @Order(6)
-    public void deletePostByIdb(){
+    public void testDeletePost(){
         // TODO
     }
 
