@@ -86,7 +86,7 @@ class PostServiceTest {
     }
 
     @Test
-    @DisplayName("Test get post by id")
+    @DisplayName("Test get post by post id")
     @Order(5)
     public void testGetPostById(){
 
@@ -100,6 +100,7 @@ class PostServiceTest {
 
         Post post = postMapper.mapToPost(postService.getPostById(12L));
 
+        Assertions.assertThat(post.getId()).isEqualTo(12);
         Assertions.assertThat(post.getDescription()).isEqualTo("description_12");
         Assertions.assertThat(post.getTitle()).isEqualTo("title_12");
         Assertions.assertThat(post.getContent()).isEqualTo("content_12");
@@ -126,7 +127,21 @@ class PostServiceTest {
     @DisplayName("Test get post by post id")
     @Order(6)
     public void testUpdatePost(){
-        // TODO
+
+        Post post = postMapper.mapToPost(postService.getPostById(5));
+
+        Assertions.assertThat(post.getId()).isEqualTo(5);
+        Assertions.assertThat(post.getDescription()).isEqualTo("description 5");
+        Assertions.assertThat(post.getTitle()).isEqualTo("title 5");
+        Assertions.assertThat(post.getContent()).isEqualTo("content 5");
+
+        PostDto postDto = new PostDto(5L, "new title", "new description", "new content", null);
+        PostDto updatedPost = postService.updatePost(postDto, 5L);
+
+        Assertions.assertThat(updatedPost.getId()).isEqualTo(5);
+        Assertions.assertThat(updatedPost.getTitle()).isEqualTo("new title");
+        Assertions.assertThat(updatedPost.getContent()).isEqualTo("new content");
+        Assertions.assertThat(updatedPost.getDescription()).isEqualTo("new description");
     }
 
     @Test
