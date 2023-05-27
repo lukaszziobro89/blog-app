@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/")
 @AllArgsConstructor
 public class CommentController {
 
@@ -27,10 +29,21 @@ public class CommentController {
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    void updateComment(){}
+    @GetMapping("/posts/{postId}/comments")
+    public List<CommentDto> getCommentsByPostId(@PathVariable("postId") long postId){
+        return commentService.getCommentsByPostId(postId);
+    }
 
-    @DeleteMapping("/{id}")
-    void deleteComment(){}
+    @PutMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentDto> updateComment(
+            @PathVariable(value = "postId") long postId,
+            @PathVariable(value = "commentId") long commentId,
+            @RequestBody @Valid CommentDto commentDto){
+        commentDto.setPostId(postId);
+        return new ResponseEntity<>(commentService.updateComment(postId, commentId, commentDto), HttpStatus.NO_CONTENT);
+    }
+
+//    @DeleteMapping("/{id}")
+//    void deleteComment(){}
 
 }

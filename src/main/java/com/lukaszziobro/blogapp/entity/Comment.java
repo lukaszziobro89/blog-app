@@ -17,7 +17,7 @@ public class Comment {
     private String name;
     private String email;
     private String body;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     private Post post;
 }

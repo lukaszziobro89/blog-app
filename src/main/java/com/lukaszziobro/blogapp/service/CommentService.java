@@ -2,6 +2,7 @@ package com.lukaszziobro.blogapp.service;
 
 import com.lukaszziobro.blogapp.entity.Comment;
 import com.lukaszziobro.blogapp.entity.Post;
+import com.lukaszziobro.blogapp.exception.BlogAPIException;
 import com.lukaszziobro.blogapp.exception.ResourceNotFoundException;
 import com.lukaszziobro.blogapp.payload.CommentDto;
 import com.lukaszziobro.blogapp.repository.CommentRepository;
@@ -9,7 +10,9 @@ import com.lukaszziobro.blogapp.repository.PostRepository;
 import com.lukaszziobro.blogapp.utils.CommentMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,8 +30,37 @@ public class CommentService {
                 () -> new ResourceNotFoundException("Post", "id", postId));
         comment.setPost(post);
         Comment newComment = commentRepository.save(comment);
-
         return commentMapper.mapToCommentDto(newComment);
     }
+
+    public List<CommentDto> getCommentsByPostId(long postId){
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId));
+
+        return commentMapper.mapToListCommentDto(post.getComments());
+    }
+
+//    TODO public getCommentById()
+
+    public CommentDto updateComment(long postId, long commentId, CommentDto commentDto){
+
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId));
+
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new ResourceNotFoundException("Comment", "id", commentId));
+
+        Comment commentToUpdate = commentMapper.mapToEntity(commentDto, comment);
+
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
+        }
+
+        Comment updatedComment = commentRepository.save(commentToUpdate);
+
+        return commentMapper.mapToCommentDto(updatedComment);
+    }
+
+//    TODO public deleteComment()
 
 }
