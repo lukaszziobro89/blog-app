@@ -69,16 +69,16 @@ public class CommentServiceTest {
                 .body("comment body")
                 .build();
 
-        CommentDto commentDto1 = commentService.createComment(6, commentDto);
-        Comment commentCreated = commentMapper.mapToComment(commentDto1);
+        commentService.createComment(6, commentDto);
 
-        Post postWithUpdatedComment = postMapper.mapToPost(postService.getPostById(6));
-        Assertions.assertThat(postWithUpdatedComment.getComments().size()).isEqualTo(1);
-        Comment comment = postWithUpdatedComment.getComments().stream().toList().get(0);
-        Assertions.assertThat(comment.getName()).isEqualTo("test comment");
-        Assertions.assertThat(comment.getEmail()).isEqualTo("test_mail@mail.com");
-        Assertions.assertThat(comment.getBody()).isEqualTo("comment body");
-        Assertions.assertThat(comment.getId()).isEqualTo(1);
+        Post postWithComment = postMapper.mapToPost(postService.getPostById(6));
+        Assertions.assertThat(postWithComment.getComments().size()).isEqualTo(1);
+
+        Comment commentCreated = postWithComment.getComments().stream().toList().get(0);
+        Assertions.assertThat(commentCreated.getName()).isEqualTo("test comment");
+        Assertions.assertThat(commentCreated.getEmail()).isEqualTo("test_mail@mail.com");
+        Assertions.assertThat(commentCreated.getBody()).isEqualTo("comment body");
+        Assertions.assertThat(commentCreated.getId()).isEqualTo(1);
 
         CommentDto updateCommentDto = CommentDto.builder()
                 .name("updated comment")
@@ -88,7 +88,9 @@ public class CommentServiceTest {
 
         Comment updatedComment = commentMapper.mapToComment(commentService.updateComment(6, 1, updateCommentDto));
 
-        Assertions.assertThat(postWithUpdatedComment.getComments().size()).isEqualTo(1);
+        Post postWithCommentUpdated = postMapper.mapToPost(postService.getPostById(6));
+
+        Assertions.assertThat(postWithCommentUpdated.getComments().size()).isEqualTo(1);
 
         Assertions.assertThat(updatedComment.getName()).isEqualTo("updated comment");
         Assertions.assertThat(updatedComment.getEmail()).isEqualTo("test_mail@mail.com");
