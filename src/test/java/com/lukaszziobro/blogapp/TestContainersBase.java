@@ -2,7 +2,6 @@ package com.lukaszziobro.blogapp;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -25,7 +24,6 @@ public class TestContainersBase {
     @BeforeAll
     public static void setUp(){
         mySQLContainer.withReuse(true);
-        mySQLContainer.withInitScript("db/changelog/dev/dbchangelog-dev.sql");
         mySQLContainer.start();
     }
 

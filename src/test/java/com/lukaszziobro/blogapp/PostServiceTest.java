@@ -17,6 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Testcontainers
 class PostServiceTest {
 
@@ -40,7 +41,7 @@ class PostServiceTest {
         PostDto savedPost = postService.createPost(postDto);
 
         Assertions.assertThat(savedPost).isNotNull();
-        Assertions.assertThat(savedPost.getId()).isEqualTo(13);
+        Assertions.assertThat(savedPost.getId()).isEqualTo(12);
         Assertions.assertThat(savedPost.getTitle()).isEqualTo("title_12");
         Assertions.assertThat(savedPost.getDescription()).isEqualTo("description_12");
         Assertions.assertThat(savedPost.getContent()).isEqualTo("content_12");

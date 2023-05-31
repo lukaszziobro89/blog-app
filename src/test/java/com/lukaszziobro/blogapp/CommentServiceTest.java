@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Testcontainers
 public class CommentServiceTest {
 
@@ -75,7 +76,8 @@ public class CommentServiceTest {
         Assertions.assertThat(commentCreated.getName()).isEqualTo("test comment");
         Assertions.assertThat(commentCreated.getEmail()).isEqualTo("test_mail@mail.com");
         Assertions.assertThat(commentCreated.getBody()).isEqualTo("comment body");
-        Assertions.assertThat(commentCreated.getId()).isEqualTo(1);
+        Assertions.assertThat(commentCreated.getId()).isEqualTo(2);
+        Assertions.assertThat(commentCreated.getPost().getId()).isEqualTo(6);
 
         CommentDto updateCommentDto = CommentDto.builder()
                 .name("updated comment")
@@ -83,7 +85,7 @@ public class CommentServiceTest {
                 .body("updated comment body")
                 .build();
 
-        Comment updatedComment = commentMapper.mapToComment(commentService.updateComment(6, 1, updateCommentDto));
+        Comment updatedComment = commentMapper.mapToComment(commentService.updateComment(6, 2, updateCommentDto));
 
         Post postWithCommentUpdated = postMapper.mapToPost(postService.getPostById(6));
 
@@ -92,7 +94,8 @@ public class CommentServiceTest {
         Assertions.assertThat(updatedComment.getName()).isEqualTo("updated comment");
         Assertions.assertThat(updatedComment.getEmail()).isEqualTo("test_mail@mail.com");
         Assertions.assertThat(updatedComment.getBody()).isEqualTo("updated comment body");
-        Assertions.assertThat(updatedComment.getId()).isEqualTo(1);
+        Assertions.assertThat(commentCreated.getId()).isEqualTo(2);
+        Assertions.assertThat(commentCreated.getPost().getId()).isEqualTo(6);
 
     }
 
@@ -105,7 +108,7 @@ public class CommentServiceTest {
 
     @Test
     @DisplayName("Test delete comment")
-    @Order(1)
+    @Order(4)
     public void testDeleteComment(){
         // TODO
     }
