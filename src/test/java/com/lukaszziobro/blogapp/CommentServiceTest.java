@@ -10,14 +10,12 @@ import com.lukaszziobro.blogapp.utils.PostMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@Testcontainers
 public class CommentServiceTest {
 
     @Autowired
@@ -78,7 +76,8 @@ public class CommentServiceTest {
         Assertions.assertThat(commentCreated.getName()).isEqualTo("test comment");
         Assertions.assertThat(commentCreated.getEmail()).isEqualTo("test_mail@mail.com");
         Assertions.assertThat(commentCreated.getBody()).isEqualTo("comment body");
-        Assertions.assertThat(commentCreated.getId()).isEqualTo(1);
+        Assertions.assertThat(commentCreated.getId()).isEqualTo(2);
+        Assertions.assertThat(commentCreated.getPost().getId()).isEqualTo(6);
 
         CommentDto updateCommentDto = CommentDto.builder()
                 .name("updated comment")
@@ -86,7 +85,7 @@ public class CommentServiceTest {
                 .body("updated comment body")
                 .build();
 
-        Comment updatedComment = commentMapper.mapToComment(commentService.updateComment(6, 1, updateCommentDto));
+        Comment updatedComment = commentMapper.mapToComment(commentService.updateComment(6, 2, updateCommentDto));
 
         Post postWithCommentUpdated = postMapper.mapToPost(postService.getPostById(6));
 
@@ -95,7 +94,8 @@ public class CommentServiceTest {
         Assertions.assertThat(updatedComment.getName()).isEqualTo("updated comment");
         Assertions.assertThat(updatedComment.getEmail()).isEqualTo("test_mail@mail.com");
         Assertions.assertThat(updatedComment.getBody()).isEqualTo("updated comment body");
-        Assertions.assertThat(updatedComment.getId()).isEqualTo(1);
+        Assertions.assertThat(commentCreated.getId()).isEqualTo(2);
+        Assertions.assertThat(commentCreated.getPost().getId()).isEqualTo(6);
 
     }
 
@@ -108,7 +108,7 @@ public class CommentServiceTest {
 
     @Test
     @DisplayName("Test delete comment")
-    @Order(1)
+    @Order(4)
     public void testDeleteComment(){
         // TODO
     }
