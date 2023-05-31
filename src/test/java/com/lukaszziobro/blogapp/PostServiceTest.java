@@ -8,19 +8,16 @@ import com.lukaszziobro.blogapp.utils.PostMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.annotation.DirtiesContext;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Testcontainers
 class PostServiceTest {
 
     @Autowired
@@ -43,7 +40,7 @@ class PostServiceTest {
         PostDto savedPost = postService.createPost(postDto);
 
         Assertions.assertThat(savedPost).isNotNull();
-        Assertions.assertThat(savedPost.getId()).isEqualTo(12L);
+        Assertions.assertThat(savedPost.getId()).isEqualTo(13);
         Assertions.assertThat(savedPost.getTitle()).isEqualTo("title_12");
         Assertions.assertThat(savedPost.getDescription()).isEqualTo("description_12");
         Assertions.assertThat(savedPost.getContent()).isEqualTo("content_12");
@@ -55,7 +52,7 @@ class PostServiceTest {
     public void testGetAllPosts(){
         Pageable wholePage = Pageable.unpaged();
         List<PostDto> postDtoList = postService.getAllPosts(wholePage).stream().toList();
-        Assertions.assertThat(postDtoList.size()).isEqualTo(11);
+        Assertions.assertThat(postDtoList.size()).isEqualTo(12);
     }
 
     @Test
@@ -124,14 +121,14 @@ class PostServiceTest {
 
         Pageable wholePage = Pageable.unpaged();
         List<PostDto> postDtoList = postService.getAllPosts(wholePage).stream().toList();
-        Assertions.assertThat(postDtoList.size()).isEqualTo(11);
+        Assertions.assertThat(postDtoList.size()).isEqualTo(13);
 
         postService.deletePostById(11);
         postService.deletePostById(10);
 
         Pageable allPostAfterDelete = Pageable.unpaged();
         List<PostDto> postDtoListAfterDelete = postService.getAllPosts(allPostAfterDelete).stream().toList();
-        Assertions.assertThat(postDtoListAfterDelete.size()).isEqualTo(9);
+        Assertions.assertThat(postDtoListAfterDelete.size()).isEqualTo(11);
 
     }
 
