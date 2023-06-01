@@ -46,21 +46,28 @@ public class CommentService {
 
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new ResourceNotFoundException("Post", "id", postId));
-
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new ResourceNotFoundException("Comment", "id", commentId));
-
         Comment commentToUpdate = commentMapper.mapToEntity(commentDto, comment);
 
         if(!comment.getPost().getId().equals(post.getId())){
             throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
         }
-
         Comment updatedComment = commentRepository.save(commentToUpdate);
 
         return commentMapper.mapToCommentDto(updatedComment);
     }
 
-//    TODO public deleteComment()
+    public void deleteComment(long postId, long commentId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId));
+        Comment commentToDelete = commentRepository.findById(commentId).orElseThrow(
+                () -> new ResourceNotFoundException("Comment", "id", commentId));
+
+        if(!commentToDelete.getPost().getId().equals(post.getId())){
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
+        }
+        commentRepository.delete(commentToDelete);
+    }
 
 }
