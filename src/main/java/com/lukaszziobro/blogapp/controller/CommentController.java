@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +24,11 @@ public class CommentController {
     private CommentService commentService;
     private PostService postService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                     @RequestBody @Valid CommentDto commentDto){
+        logger.info("inside create comment");
         return new ResponseEntity<>(commentService.createComment(postId, commentDto), HttpStatus.CREATED);
     }
 
@@ -34,6 +37,7 @@ public class CommentController {
         return commentService.getCommentsByPostId(postId);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> updateComment(
             @PathVariable(value = "postId") long postId,
@@ -43,6 +47,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.updateComment(postId, commentId, commentDto), HttpStatus.NO_CONTENT);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/postst/{postId}/comments/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") long postId,
                                                 @PathVariable("commentId") long commentId){

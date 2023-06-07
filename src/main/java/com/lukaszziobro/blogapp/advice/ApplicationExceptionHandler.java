@@ -2,6 +2,8 @@ package com.lukaszziobro.blogapp.advice;
 
 import com.lukaszziobro.blogapp.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,6 +38,24 @@ public class ApplicationExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public Map<String, String> handleBusinessException(Exception ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("date", new Date().toString());
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AccessDeniedException.class)
+    public Map<String, String> handleAccessDeniedException(AccessDeniedException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("date", new Date().toString());
+        errorMap.put("errorMessage", ex.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public Map<String, String> handleBadCredentialsException(BadCredentialsException ex) {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("date", new Date().toString());
         errorMap.put("errorMessage", ex.getMessage());
