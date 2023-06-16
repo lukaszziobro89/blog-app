@@ -24,7 +24,7 @@ public class CommentController {
     private CommentService commentService;
     private PostService postService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postId") long postId,
                                                     @RequestBody @Valid CommentDto commentDto){
@@ -37,7 +37,7 @@ public class CommentController {
         return commentService.getCommentsByPostId(postId);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PutMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<CommentDto> updateComment(
             @PathVariable(value = "postId") long postId,
@@ -47,7 +47,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.updateComment(postId, commentId, commentDto), HttpStatus.NO_CONTENT);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping("/postst/{postId}/comments/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") long postId,
                                                 @PathVariable("commentId") long commentId){

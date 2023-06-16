@@ -45,5 +45,6 @@ INSERT INTO myblog.users(name, username, email, password)
 VALUES ('admin', 'admin', 'admin@admin.com', '$2a$10$7.MLEFh1cDpBl4609G3vb.PFoHTjvSkiSNqpBya2FupFTL0V34H2e');
 
 INSERT INTO myblog.roles(name) VALUES ('ROLE_ADMIN');
+INSERT INTO myblog.roles(name) VALUES ('ROLE_USER');
 
 INSERT INTO myblog.users_roles VALUES (1, 1);
