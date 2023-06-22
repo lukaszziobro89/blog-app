@@ -5,6 +5,8 @@ import com.lukaszziobro.blogapp.entity.Post;
 import com.lukaszziobro.blogapp.payload.CommentDto;
 import com.lukaszziobro.blogapp.payload.PostDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.Set;
 
@@ -13,10 +15,12 @@ public interface PostMapper {
 
     Post mapToPost(PostDto postDto);
 
-    Post mapToPostById(PostDto postDto, long postId);
-
     PostDto mapToPostDto(Post post);
 
     Set<Comment> mapToComments(Set<CommentDto> commentDto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "comments", ignore = true)
+    Post mapToPostById(PostDto postDto, @MappingTarget Post post);
 
 }

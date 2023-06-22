@@ -41,8 +41,11 @@ public class PostService {
     }
 
     public PostDto updatePost(PostDto postDto, long id) {
-        Post post = postMapper.mapToPostById(postDto, id);
-        Post postSaved = postRepository.save(post);
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+
+        Post toBeSaved = postMapper.mapToPostById(postDto, post);
+        Post postSaved = postRepository.save(toBeSaved);
         return postMapper.mapToPostDto(postSaved);
     }
 
