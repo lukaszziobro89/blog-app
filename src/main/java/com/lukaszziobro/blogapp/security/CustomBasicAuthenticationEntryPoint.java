@@ -1,4 +1,4 @@
-package com.lukaszziobro.blogapp.config;
+package com.lukaszziobro.blogapp.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

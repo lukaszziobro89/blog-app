@@ -7,6 +7,7 @@ import com.lukaszziobro.blogapp.payload.LoginDto;
 import com.lukaszziobro.blogapp.payload.RegisterDto;
 import com.lukaszziobro.blogapp.repository.RoleRepository;
 import com.lukaszziobro.blogapp.repository.UserRepository;
+import com.lukaszziobro.blogapp.security.JwtTokenProvider;
 import com.lukaszziobro.blogapp.utils.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +32,15 @@ public class AuthService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private UserMapper userMapper;
+    private JwtTokenProvider jwtTokenProvider;
 
     public String login(LoginDto loginDto){
        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "User logged in successfully!";
+
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     public String register(RegisterDto registerDto){
