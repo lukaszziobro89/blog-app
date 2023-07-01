@@ -1,4 +1,4 @@
-package com.lukaszziobro.blogapp.config;
+package com.lukaszziobro.blogapp;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
 
 @Configuration
 public class AppConfig {
+
     @Bean(name = "mvcHandlerMappingIntrospector")
     public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
         return new HandlerMappingIntrospector();
@@ -19,4 +20,3 @@ public class AppConfig {
     }
 
 }
-
