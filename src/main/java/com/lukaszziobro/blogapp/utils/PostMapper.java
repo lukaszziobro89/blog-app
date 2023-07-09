@@ -13,6 +13,7 @@ import java.util.Set;
 @Mapper(componentModel = "spring", uses = CommentMapper.class)
 public interface PostMapper {
 
+    @Mapping(target = "category", ignore = true)
     Post mapToPost(PostDto postDto);
 
     PostDto mapToPostDto(Post post);
@@ -21,6 +22,7 @@ public interface PostMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "category", ignore = true)
     Post mapToPostById(PostDto postDto, @MappingTarget Post post);
 
 }

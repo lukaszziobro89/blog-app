@@ -1,2 +1,7 @@
-package com.lukaszziobro.blogapp.repository;public interface CategoryRepository {
+package com.lukaszziobro.blogapp.repository;
+
+import com.lukaszziobro.blogapp.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }
