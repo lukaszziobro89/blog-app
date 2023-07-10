@@ -44,3 +44,7 @@ ALTER TABLE myblog.posts
 ALTER TABLE myblog.posts
     ADD CONSTRAINT fk_category_id
         FOREIGN KEY (category_id) REFERENCES myblog.posts (id);
+
+insert into myblog.categories (name, description) values ( 'category name 1', 'category description 1' );
+insert into myblog.categories (name, description) values ( 'category name 2', 'category description 2' );
+insert into myblog.categories (name, description) values ( 'category name 3', 'category description 3' );
