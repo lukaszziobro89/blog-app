@@ -43,35 +43,35 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Test get all categories")
     @Order(2)
-    public void testGetAllCategories() {
+    public void testGetAllCategories() {//TODO
 
     }
 
     @Test
     @DisplayName("Test get category by category id")
     @Order(3)
-    public void testGetCategoryByCategoryId() {
+    public void testGetCategoryByCategoryId() {//TODO
 
     }
 
     @Test
     @DisplayName("Test update category")
     @Order(4)
-    public void testUpdateCategory() {
+    public void testUpdateCategory() {//TODO
 
     }
 
     @Test
     @DisplayName("Test delete category")
     @Order(5)
-    public void testDeleteCategory() {
+    public void testDeleteCategory() {//TODO
 
     }
 
     @Test
     @DisplayName("Test get category by id throws resource not found exception")
     @Order(4)
-    public void testGetCategoryByIdThrowsResourceNotFoundException(){
+    public void testGetCategoryByIdThrowsResourceNotFoundException(){//TODO
 
     }
 
