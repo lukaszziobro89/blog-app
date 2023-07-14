@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -174,16 +177,51 @@ public class CommentServiceTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Test get Comments by post Id")
     @Order(5)
-    public void getCommentByCommentId(){
-
+    public void getCommentByPostId(){
+        List<CommentDto> comments = commentService.getCommentsByPostId(7);
+        Assertions.assertThat(comments.size()).isEqualTo(1);
+        Comment comment = commentMapper.mapToComment(comments.get(0));
+        Assertions.assertThat(comment.getName()).isEqualTo("test comment");
+        Assertions.assertThat(comment.getEmail()).isEqualTo("test_mail@mail.com");
+        Assertions.assertThat(comment.getBody()).isEqualTo("comment body");
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Test get all comments")
     @Order(6)
     public void getAllComments(){
+        Post post = postMapper.mapToPost(postService.getPostById(7));
+        Assertions.assertThat(post.getComments().size()).isEqualTo(1);
+
+        CommentDto commentDto = CommentDto.builder()
+                .name("test comment 6")
+                .email("test_mail_6@mail.com")
+                .body("comment body 6")
+                .build();
+        commentService.createComment(7, commentDto);
+
+        Post postWithComment = postMapper.mapToPost(postService.getPostById(7));
+        Assertions.assertThat(postWithComment.getComments().size()).isEqualTo(2);
+
+        Set<Comment> comments = postWithComment.getComments();
+
+        Comment comment_1 = comments.stream()
+                .filter(comment -> comment.getId() == 1)
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Category", "id", 1));
+
+        Comment comment_6 = comments.stream()
+                .filter(comment -> comment.getId() == 6)
+                .findFirst().orElseThrow(() -> new ResourceNotFoundException("Category", "id", 6));
+
+        Assertions.assertThat(comment_1.getName()).isEqualTo("test comment");
+        Assertions.assertThat(comment_1.getEmail()).isEqualTo("test_mail@mail.com");
+        Assertions.assertThat(comment_1.getBody()).isEqualTo("comment body");
+
+        Assertions.assertThat(comment_6.getName()).isEqualTo("test comment 6");
+        Assertions.assertThat(comment_6.getEmail()).isEqualTo("test_mail_6@mail.com");
+        Assertions.assertThat(comment_6.getBody()).isEqualTo("comment body 6");
 
     }
 
