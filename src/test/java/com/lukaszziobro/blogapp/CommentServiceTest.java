@@ -173,4 +173,18 @@ public class CommentServiceTest {
 
     }
 
+    @Test
+    @DisplayName("")
+    @Order(5)
+    public void getCommentByCommentId(){
+
+    }
+
+    @Test
+    @DisplayName("")
+    @Order(6)
+    public void getAllComments(){
+
+    }
+
 }

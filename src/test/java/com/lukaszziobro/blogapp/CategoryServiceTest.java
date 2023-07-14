@@ -7,7 +7,11 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -43,15 +47,20 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Test get all categories")
     @Order(2)
-    public void testGetAllCategories() {//TODO
-
+    public void testGetAllCategories() {
+        Pageable wholePage = Pageable.unpaged();
+        List<CategoryDto> categories = categoryService.getAllCategories(wholePage).stream().toList();
+        Assertions.assertThat(categories.size()).isEqualTo(4);
     }
 
     @Test
     @DisplayName("Test get category by category id")
     @Order(3)
-    public void testGetCategoryByCategoryId() {//TODO
-
+    public void testGetCategoryByCategoryId() {
+        CategoryDto categoryDto = categoryService.getCategoryById(3);
+        Assertions.assertThat(categoryDto.getId()).isEqualTo(3);
+        Assertions.assertThat(categoryDto.getName()).isEqualTo("category name 3");
+        Assertions.assertThat(categoryDto.getDescription()).isEqualTo("category description 3");
     }
 
     @Test
