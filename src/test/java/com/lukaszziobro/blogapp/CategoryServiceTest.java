@@ -1,5 +1,6 @@
 package com.lukaszziobro.blogapp;
 
+import com.lukaszziobro.blogapp.entity.Category;
 import com.lukaszziobro.blogapp.payload.CategoryDto;
 import com.lukaszziobro.blogapp.service.CategoryService;
 import com.lukaszziobro.blogapp.utils.CategoryMapper;
@@ -7,13 +8,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -66,7 +64,26 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Test update category")
     @Order(4)
-    public void testUpdateCategory() {//TODO
+    public void testUpdateCategory() {
+        CategoryDto categoryDto = CategoryDto.builder()
+                .description("category test")
+                .name("category_test")
+                .build();
+
+        Category category = categoryMapper.mapToCategory(categoryService.addCategory(categoryDto));
+
+        Assertions.assertThat(category.getName()).isEqualTo("category_test");
+        Assertions.assertThat(category.getDescription()).isEqualTo("category test");
+
+        CategoryDto update = CategoryDto.builder()
+                .name("category test updated")
+                .description("category_test updated")
+                .build();
+
+        CategoryDto updatedCategory = categoryService.updateCategory(update, category.getId());
+
+        Assertions.assertThat(updatedCategory.getName()).isEqualTo("category test updated");
+        Assertions.assertThat(updatedCategory.getDescription()).isEqualTo("category_test updated");
 
     }
 
