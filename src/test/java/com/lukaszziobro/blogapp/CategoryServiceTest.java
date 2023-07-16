@@ -1,6 +1,7 @@
 package com.lukaszziobro.blogapp;
 
 import com.lukaszziobro.blogapp.entity.Category;
+import com.lukaszziobro.blogapp.exception.ResourceNotFoundException;
 import com.lukaszziobro.blogapp.payload.CategoryDto;
 import com.lukaszziobro.blogapp.service.CategoryService;
 import com.lukaszziobro.blogapp.utils.CategoryMapper;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -108,7 +111,15 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Test get category by id throws resource not found exception")
     @Order(4)
-    public void testGetCategoryByIdThrowsResourceNotFoundException(){//TODO
+    public void testGetCategoryByIdThrowsResourceNotFoundException(){
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+            categoryService.getCategoryById(123);
+        });
+
+        String expectedMessage = "Category not found with id : '123'";
+        String actualMessage = exception.getMessage();
+
+        Assertions.assertThat(actualMessage).isEqualTo(expectedMessage);
 
     }
 
