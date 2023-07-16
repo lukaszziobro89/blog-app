@@ -90,8 +90,19 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Test delete category")
     @Order(5)
-    public void testDeleteCategory() {//TODO
+    public void testDeleteCategory() {
+        Pageable wholePage = Pageable.unpaged();
+        List<CategoryDto> categories = categoryService.getAllCategories(wholePage).stream().toList();
+        Assertions.assertThat(categories.size()).isEqualTo(5);
 
+        categoryService.deleteCategoryById(5);
+
+        Pageable wholePageAfterDelete = Pageable.unpaged();
+        List<CategoryDto> categoriesAfterDelete = categoryService
+                .getAllCategories(wholePageAfterDelete)
+                .stream()
+                .toList();
+        Assertions.assertThat(categoriesAfterDelete.size()).isEqualTo(4);
     }
 
     @Test
