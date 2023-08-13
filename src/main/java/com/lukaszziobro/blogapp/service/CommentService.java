@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -68,6 +69,11 @@ public class CommentService {
             throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
         }
         commentRepository.delete(commentToDelete);
+    }
+
+    public List<CommentDto> getCommentsByEmail(String email){
+        return commentRepository.findByEmail(email)
+                .stream().map(commentMapper::mapToCommentDto).collect(Collectors.toList());
     }
 
 }

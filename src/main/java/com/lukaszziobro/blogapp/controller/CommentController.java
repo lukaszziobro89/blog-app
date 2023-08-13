@@ -58,11 +58,16 @@ public class CommentController {
 
     @SecurityRequirement(name = "Bear Authentication")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @DeleteMapping("/postst/{postId}/comments/{commentId}")
+    @DeleteMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<String> deleteComment(@PathVariable("postId") long postId,
                                                 @PathVariable("commentId") long commentId){
         commentService.deleteComment(postId, commentId);
         return new ResponseEntity<>("Comment deleted", HttpStatus.OK);
+    }
+
+    @GetMapping("/comments/{email}")
+    public List<CommentDto> getCommentsByEmail(@PathVariable(value = "email") String email){
+        return commentService.getCommentsByEmail(email);
     }
 
 }
