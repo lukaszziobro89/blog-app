@@ -12,17 +12,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterDto {
-    @NotNull
+    @NotNull(message = "Name cannot be empty")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Username cannot be empty")
     private String username;
 
-    @NotNull
+    @NotNull(message = "Email cannot be empty")
     @Email
     private String email;
 
-    @NotNull
+    @NotNull(message = "Password cannot be empty")
     private String password;
 
+    @NotNull(message = "Role cannot be empty")
+    private String role;
 }
