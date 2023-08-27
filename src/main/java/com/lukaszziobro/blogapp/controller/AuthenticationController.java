@@ -64,7 +64,7 @@ public class AuthenticationController {
         }
         String verificationResult = authService.validateToken(token);
         if (verificationResult.equalsIgnoreCase("valid")){
-            verificationTokenRepository.delete(verificationToken);
+//            verificationTokenRepository.delete(verificationToken); // TODO: here we delete token
             return new ResponseEntity<>(
                     "Email verified successfully. Now you can login to your account",
                     HttpStatus.OK
